@@ -1,21 +1,21 @@
 import random
 
 # Prerequisites
-# Defining the dictionary of words with difficulty levels, dictionary can be expanded later
+# Dictionary of words with difficulty levels, dictionary can be expanded later
 words = {
     'Easy':     ['Lime', 'Salt'],
     'Normal':   ['Avocado', 'Onion', 'Tomato', 'Lemon'],
     'Hard':     ['Coriander', 'Garlic']
 }
 
-# Defining each difficulty level as a number
+# Difficulty level as a number
 level_map = {'1': 'Easy', '2': 'Normal', '3': 'Hard'}
 
-# Defining the tries allowed after incorrect guessed, tries allowed can be expanded later
+# Tries allowed after incorrect guessed, tries allowed can be expanded later
 tries_by_level = {'Easy': 5, 'Normal': 4, 'Hard': 3}
 
 # Start
-# Prompting the user for input, selecting a difficulty level by a number
+# Prompt the user to select a difficulty level using a number
 print('\033[95mWelcome to Hangman!\nGuess the word, Guacamole ingredients!\033[0m\n')
 
 while True:
@@ -34,38 +34,38 @@ while True:
     else:
         print("Invalid input. Please enter a number (1-3).")
 
-# Randomly selecting the answer word from the dictionary based on the level selected by the user
+# Select a random answer word from the dictionary
 word = random.choice(words[level]).lower()
 tries = tries_by_level[level]
 guessed = ['_'] * len(word)
 incorrect_letters = []
 
-# Prompting the user for input, selecting a letter of the word
+# Prompt the user to input a letter
 while tries > 0 and '_' in guessed:
     print(f'\n\033[96mCurrent Word:\033[0m {" ".join(guessed)}')
     print(f'Incorrect guessed letters: {", ".join(incorrect_letters)}')
     guess = input('\033[96mGuess a letter: \033[0m').lower()
     print(f'Incorrect guesses remaining: {tries}')
 
-    # Checking if the letter is invalid length and alphabet
+    # If the letter is invalid length and alphabet
     if len(guess) != 1 or not guess.isalpha():
         print('Input error, please input a alphabet.\n')
         continue
 
-    # Checking if the letter is already guessed
+    # If the letter is already guessed
     if guess in guessed or guess in incorrect_letters:
         print('The letter is already guessed.\n')
         continue
 
-    # Checking if the letter is in the word
+    # If the letter is in the word
     if guess in word:
         for i, letter in enumerate(word):
             if letter == guess:
                 # Change the first letter to uppercase
                 guessed[i] = guess.upper() if i == 0 else guess
         print(f'Good job! "{guess}" is in the word.\n')
-    # Checking if the letter is NOT in the word and add it to incorrect letters
-    # Reducing tries
+    # If the letter is not found in the word, add it to the incorrect letters list
+    # and reduce tries
     else:
         incorrect_letters.append(guess)
         tries -= 1
